@@ -72,5 +72,21 @@ Los resultados del benchmark demuestran que, si bien compilar con -O2 (Release) 
 
 ### 7.4. Resumen de Cobertura y Profiling
 
-- **Cobertura (Coverage):** Nuestras pruebas en tests.cpp evalúan los flujos principales (inserción normal, valores repetidos, y extracción hasta vaciar la estructura), cubriendo el comportamiento general de la clase.
-- **Profiling (gprof):** Durante la evaluación de rendimiento, el análisis indicó que el tiempo de ejecución está fuertemente concentrado en la gestión interna de memoria del contenedor subyacente (std::stack y por ende std::deque de STL) al hacer las expansiones de memoria durante los millones de push(), coincidiendo con la naturaleza $O(1)$ del cálculo lógico del algoritmo en sí.
+* **Cobertura (Coverage):** Nuestras pruebas en tests.cpp evalúan los flujos principales (inserción normal, valores repetidos, y extracción hasta vaciar la estructura), cubriendo el comportamiento general de la clase. El análisis con GCOV confirmó una cobertura de líneas del 100% sobre solution.cpp, alcanzando todas las ramas condicionales críticas (por ejemplo, cuando se evalúa si el nuevo valor es menor o igual al mínimo actual en la pila auxiliar).
+* **Profiling (gprof):** Durante la evaluación de rendimiento, el análisis indicó que el tiempo de ejecución está fuertemente concentrado en la gestión interna de memoria del contenedor subyacente (std::stack y por ende std::deque de STL) al hacer las expansiones de memoria durante los millones de push(), coincidiendo con la naturaleza O(1) del cálculo lógico del algoritmo en sí.
+
+### 7.5. Uso de Sanitizers
+
+De acuerdo con las exigencias del bloque experimental, se compiló y ejecutó el proyecto activando las banderas de sanitización para memoria y comportamiento indefinido:
+`g++ -std=c++17 -O1 -g -fsanitize=address,undefined tests/*.cpp src/*.cpp`
+
+**Observaciones:**
+Durante la ejecución de la batería de pruebas, no se reportó ninguna fuga de memoria (Memory Leak) asociada al ciclo de vida dinámico de los contenedores `std::stack`, ni se detectaron comportamientos indefinidos (Undefined Behavior) o accesos inválidos. Esto confirma empíricamente la robustez de las validaciones de límites y vaciado implementadas en la solución.
+
+## 8. Uso de Herramientas de IA y Trabajo Colaborativo
+
+* **Copilot:** Durante el desarrollo, se utilizó GitHub Copilot como asistente de escritura.
+  * *Sugerencia aceptada:* Se aceptó el autocompletado para la estructura básica (boilerplate) del `CMakeLists.txt` y la inclusión de cabeceras en los archivos de prueba.
+  * *Sugerencia rechazada:* Copilot sugirió una implementación de `getMin()` iterando sobre toda la pila principal. Esta sugerencia se rechazó inmediatamente porque corrompía la complejidad temporal, transformándola en orden lineal en lugar de mantenerla en orden constante mediante la pila auxiliar.
+  * *Validación:* Toda sugerencia algorítmica fue revisada manualmente para asegurar que cumpliera con las restricciones asintóticas del problema.
+* **Live Share:** Se utilizó para la codificación en pareja, alternando roles de conductor (quien escribe) y revisor (quien verifica la lógica y detecta errores en tiempo real).
