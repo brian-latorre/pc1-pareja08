@@ -9,6 +9,9 @@ void MinStack::push(int val) {
 }
 
 void MinStack::pop() {
+    if (main_stack.empty()) {
+        return;
+    }
     if (main_stack.top() == min_stack.top()) {
         min_stack.pop();
     }

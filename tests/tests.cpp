@@ -3,16 +3,32 @@
 #include "../src/solution.hpp"
 
 int main() {
-    MinStack* minStack = new MinStack();
-    minStack->push(-2);
-    minStack->push(0);
-    minStack->push(-3);
-    
-    assert(minStack->getMin() == -3); // El mínimo debe ser -3
-    minStack->pop();
-    assert(minStack->top() == 0);
-    assert(minStack->getMin() == -2); // Tras el pop, el mínimo vuelve a ser -2
-    
-    std::cout << "Pruebas de MinStack pasadas correctamente." << std::endl;
+    MinStack minStack;
+
+    // 1. Caso Normal 
+    minStack.push(-2);
+    minStack.push(0);
+    minStack.push(-3);
+    assert(minStack.getMin() == -3);
+    minStack.pop();
+    assert(minStack.top() == 0);
+    assert(minStack.getMin() == -2);
+
+    // 2. Caso de Valores repetidos
+    MinStack repetidos;
+    repetidos.push(5);
+    repetidos.push(5);
+    repetidos.push(2);
+    repetidos.push(2);
+    assert(repetidos.getMin() == 2);
+    repetidos.pop();
+    assert(repetidos.getMin() == 2);
+
+    // 3. Caso borde: Un solo elemento
+    MinStack unElemento;
+    unElemento.push(42);
+    assert(unElemento.getMin() == 42);
+    assert(unElemento.top() == 42);
+
     return 0;
 }
