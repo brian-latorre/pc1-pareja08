@@ -24,11 +24,9 @@ int main() {
     repetidos.pop();
     assert(repetidos.getMin() == 2);
 
-    // 3. Caso borde: Un solo elemento
-    MinStack unElemento;
-    unElemento.push(42);
-    assert(unElemento.getMin() == 42);
-    assert(unElemento.top() == 42);
+    // 3. Caso borde: Pop en una pila completamente vacía
+    MinStack pilaVacia;
+    pilaVacia.pop();
 
     return 0;
 }
