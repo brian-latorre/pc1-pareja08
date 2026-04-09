@@ -27,6 +27,6 @@ int main() {
     // 3. Caso borde: Pop en una pila completamente vacía
     MinStack pilaVacia;
     pilaVacia.pop();
-
+    std::cout << "Todas las pruebas pasaron exitosamente!" << std::endl;
     return 0;
 }
